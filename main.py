@@ -1,15 +1,16 @@
 import requests
 from twilio.rest import Client
+import os
 
 # set up Twilio
-account_sid = "AC6ba5227ca44116b544f1d1c1853d24e4"
-auth_token = "2914397e3d86644ff82b3a820e545511"
+account_sid = os.environ.get("SID")
+auth_token = os.environ.get("AUTH_TOKEN")
 
 # set up weather API
 parameters = {
     "lat": 40.712776,
     "lon": -74.005974,
-    "appid": "fddcd340d82612566556d12698645c74",
+    "appid": os.environ.get("APP_ID"),
     "cnt": 4,
 }
 
@@ -27,9 +28,9 @@ for hour in data["list"]:
 if will_rain:
     client = Client(account_sid, auth_token)
     message = client.messages.create(
-        from_='+18446950021',
+        from_="[Phone Number]",
         body="It's going to rain today!",
-        to='[Phone Number]'
+        to="[Phone Number]"
     )
     print(message.status)
 
